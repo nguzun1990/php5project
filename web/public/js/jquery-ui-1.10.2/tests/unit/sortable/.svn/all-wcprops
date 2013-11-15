@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable
+END
+sortable_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_options.js
+END
+sortable_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_test_helpers.js
+END
+sortable_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_methods.js
+END
+sortable_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/all.html
+END
+sortable.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable.html
+END
+sortable_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_common.js
+END
+sortable_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/sortable/sortable_core.js
+END

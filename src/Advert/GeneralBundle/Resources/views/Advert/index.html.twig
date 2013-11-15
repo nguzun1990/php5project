@@ -1,0 +1,38 @@
+{%extends "::base.html.twig"%}
+{% block class_menu_item1 %}menu-item-hover{% endblock class_menu_item1 %}
+{% block page_content %}
+<div class="title-main-page">
+      Les petites annonces faciles
+  </div>
+  <div class="home-table-div">
+    <table class="home-table">
+        <tr>
+            <td rowspan="2" class="home-table-first-td">
+                {% if adverts[0] is defined %}
+                    {% include "AdvertGeneralBundle:Advert/templates:advert1.html.twig" with { advert: adverts[0]} %}
+                {% endif %}
+            </td>
+            <td class="home-table-second-td">
+                {% if adverts[1] is defined %}
+                    {% include "AdvertGeneralBundle:Advert/templates:advert2.html.twig" with { advert: adverts[1]} %}
+                {% endif %}
+            </td>
+            <td rowspan="2" class="home-table-third-td">
+                {% if adverts[3] is defined %}
+                    {% include "AdvertGeneralBundle:Advert/templates:advert4.html.twig" with { advert: adverts[3]} %}
+                {% endif %}
+                {% if adverts[4] is defined %}
+                    {% include "AdvertGeneralBundle:Advert/templates:advert5.html.twig" with { advert: adverts[4]} %}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="home-table-second-td">
+                {% if adverts[2] is defined %}
+                    {% include "AdvertGeneralBundle:Advert/templates:advert3.html.twig" with { advert: adverts[2]} %}
+                {% endif %}
+            </td>
+	</tr>
+    </table>
+  </div>
+{% endblock %}

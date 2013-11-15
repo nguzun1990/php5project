@@ -1,0 +1,8 @@
+<div class="advert-summary-5">
+    {% if advert.photo %}
+        <span class="advert-summary-image"><img src="{{ asset('photo') }}{{advert.photo.fileName}}" /></span>
+    {% else %}
+        <span class="advert-summary-image"><img src="{{ asset('public/css/images/photo.png') }}" /></span>
+    {% endif %}
+    <div onclick="openWindowDetail('{{ path("advert_view", {'advertId': advert.id}) }}', '{{advert.title}}');" class="advert-summary-title">{{advert.title}}</div>
+</div>

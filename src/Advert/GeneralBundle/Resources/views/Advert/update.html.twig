@@ -1,0 +1,78 @@
+{%extends "::base.html.twig"%}
+{% block title %}Pagoda {{advert.title}}{% endblock %}
+{% block page_content %}
+<div class="title-list-content">
+    <span class="page-title">Ajouter une annonce</span>
+</div>
+<form action="" method="post" {{ form_enctype(form) }}>
+<div class="form-div">
+    <table class="form-table">
+      <tr>
+          <td class="localization-td">
+              <span class="label-localization">Localisation</span>
+              <br/>
+              <span class="label-region">Région</span>
+              {{ form_widget(form.region, { 'attr': {'class': 'input_region'} }) }}
+              <span class="input_error">{{ form_errors(form.region) }}</span>
+              <span class="label-zipcode">Code postal</span>
+              {{ form_widget(form.zipcode, { 'attr': {'class': 'input_zipcode'} }) }}
+              <span class="input_error">{{ form_errors(form.zipcode) }}</span>
+          </td>
+          <td class="region-td">
+              <span class="label-category-big">Catégorie</span>
+              <br/>
+              <span class="label-category-small">Catégorie</span>
+              {{ form_widget(form.category, { 'attr': {'class': 'input_category'} }) }}
+              <span class="input_error">{{ form_errors(form.category) }}</span>
+              <span class="label-type">Vous êtes un</span>
+              {{ form_widget(form.type, { 'attr': {'class': 'input_type'} }) }}
+              <span class="input_error">{{ form_errors(form.type)|trans }}</span>
+          </td>
+          <td>
+              <span class="label-information">Informations</span>
+              <br/>
+              <span class="label-name">Votre nom</span>
+              {{ form_widget(form.name, { 'attr': {'class': 'input_name'} }) }}
+              <span class="input_error">{{ form_errors(form.name) }}</span>
+              <span class="label-email">Email</span>
+              {{ form_widget(form.email, { 'attr': {'class': 'input_email'} }) }}
+              <span class="input_error">{{ form_errors(form.email) }}</span>
+              <span class="label-phone">Téléphone</span>
+              {{ form_widget(form.phone, { 'attr': {'class': 'input_phone'} }) }}
+              <span class="input_error">{{ form_errors(form.phone) }}</span>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2" class="main-advert-form">
+              <span class="label-votre-advert">Votre annonce</span>
+              <span class="label-advert">Titre de l'annonce</span>
+              {{ form_widget(form.title, { 'attr': {'class': 'input_title'}} ) }}
+              <span class="input_error_white">{{ form_errors(form.title) }}</span>
+              <span class="label-advert-text">Texte de l'annonce</span>
+              {{ form_widget(form.content, { 'attr': {'class': 'input_content'}} )}}
+              <span class="input_error_white">{{ form_errors(form.content) }}</span>
+              <span class="label-price">Prix</span>
+              {{ form_widget(form.price, { 'attr': {'class': 'input_price'} }) }}
+              <span class="euro-label">&euro;</span>
+              <span class="input_error_white">{{ form_errors(form.price) }}</span>
+          </td>
+          <td>
+              <div class="photo-form-container">
+                  <span class="label-photo">Votre Photo</span>
+                    {% if photo %}
+                        <img class="photo-thumbnail" id="photo-div" src="{{ asset('photo') }}{{photo.fileName}}"/>
+                    {% else %}
+                        <img class="photo-thumbnail" id="photo-div" src="{{ asset('public/css/images/photo.png') }}"/>
+                    {% endif %}
+                  <span class="photo-btn">
+                    {{ form_widget(form.photo, { 'attr': {'class': 'input_photo', 'onchange': 'readURL(this);', 'value': '1234567890'} }) }}
+                   Ajouter une photo </span>
+               </div>
+          </td>
+      </tr>
+    </table>
+        {{ form_rest(form) }}
+</div>
+<input type="submit" value="VALIDER" class="submit">
+</form>
+{% endblock %}

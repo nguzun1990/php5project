@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Pagoda{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('public/css/main.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('public/js/jquery-ui-1.10.2/themes/base/jquery-ui.css') }}" type="text/css" media="all" />
+        {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('public/js/jquery-1.9.1.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('public/js/jquery-ui-1.10.2/ui/jquery-ui.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('public/js/main.js') }}"></script>
+            <script type="text/javascript">
+                deleteAdvertLink = "{{ path("advert_delete", {'advertId': 'advertId'}) }}";
+                deleteAdvertsLink = "{{ path("adverts_delete") }}";
+                listContentAdvertLink = "{{ path("advert_list_content") }}";
+                searchLink = "{{ path("advert_search") }}";
+            </script>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}
+               {% block page_header %}
+                    <div class="background ">
+                        <div id="logo" class="Logo"><img src="{{ asset('public/css/images/logo.png')}}"/></div>
+                        <div class="menu-container">
+                          <a href="{{ path("advert_home") }}"><span class="{% block class_menu_item1 %}menu-item{% endblock class_menu_item1 %}">Accueil</span></a>
+                          <a href="{{ path("advert_list") }}"><span class="{% block class_menu_item2 %}menu-item{% endblock class_menu_item2 %}">Vos annonce</span></a>
+                          <a href="{{ path("advert_about") }}"><span class="{% block class_menu_item3 %}menu-item{% endblock class_menu_item3 %}">A propos de</span></a>
+                        </div>
+                        <span class="filet"></span>
+                    </div>
+                {% endblock %}
+                <din class="content">
+                {% block page_content %}{% endblock %}
+                </div>
+                {% block page_footer %}
+                    <div class="footer">
+                      Copyright © 2013 Pagoda Inc. Tous droits réservés.
+                    </div>
+                {% endblock %}
+        {% endblock %}
+    </body>
+	<script type="text/javascript">
+		window.onload = function() {
+			resizeHomePage();
+		};
+	</script>
+</html>

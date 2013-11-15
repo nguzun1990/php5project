@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner
+END
+spinner.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner.html
+END
+spinner_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_common.js
+END
+spinner_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_core.js
+END
+spinner_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_options.js
+END
+spinner_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_test_helpers.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/all.html
+END
+spinner_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_methods.js
+END
+spinner_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/spinner/spinner_events.js
+END

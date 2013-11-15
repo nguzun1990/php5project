@@ -1,0 +1,1484 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+$(function() {
+    $( "#sortable_category_level_0" ).sortable({
+        update: function( event, ui )
+        {
+            sort($(this));
+        }
+    });
+});
+
+$(function() {
+    $( ".sortable_category_level_1" ).sortable({
+        update: function( event, ui )
+        {
+            sort($(this));
+        }
+    });
+});
+
+function sort(object){
+    categorySort = categorySortLink.replace("sortedIDs","");
+    var sortedIDs = object.sortable( "toArray" );
+    $.ajax({
+        type: "GET",
+        url: categorySort + sortedIDs
+    }).done(function(response) {
+
+    });
+}
+
+
+function editCategory(idCategory){
+    $('#editCategory' + idCategory).show();
+    $('#edit-button' + idCategory).hide();
+    $('#add-button' + idCategory).hide();
+    $('#info-button' + idCategory).hide();
+    $('#delete-button' + idCategory).hide();
+    $('#categoryLabel' + idCategory).hide();
+}
+
+function addCategory() {
+    $('#addCategory').show();
+    $('#addCategory input').val('');
+}
+
+function addSubCategory(idCategory)
+{
+    $('#addSubCategory' + idCategory + ' input').val('');
+    $('#addSubCategory' + idCategory).show();
+    $('#add-button' + idCategory).hide();
+    $('#info-button' + idCategory).hide();
+    $('#edit-button' + idCategory).hide();
+    $('#delete-button' + idCategory).hide();
+    $('#addSubCategory' + idCategory).removeClass("editCategory");
+    $('#addSubCategory' + idCategory).addClass("editSubCategory");
+}
+
+function saveCategory(idCategory, parentId){
+    if ((idCategory == 'new') && (parentId == 0)) {
+        titleCategory = $('#categoryInputNew').val();
+    } else if ((idCategory == 'new') && (parentId != 0)) {
+        titleCategory = $('#subcategoryInputNew'+parentId).val();
+    } else {
+        titleCategory = $('#categoryInput' + idCategory).val();
+    }
+    if (titleCategory == '') {
+        showError("La catégorie ne peut pas être vide");
+
+        return;
+    }
+    categoryUpdate = categoryUpdateLink.replace("idCategory", idCategory);
+    categoryUpdate = categoryUpdate.replace("titleCategory", titleCategory);
+    categoryUpdate = categoryUpdate.replace("parentId", parentId);
+    $.ajax({
+        type: "GET",
+        url: categoryUpdate
+    }).done(function(response) {
+        if (response == 'success') {
+            $('#editCategory' + idCategory).hide();
+            $('#edit-button' + idCategory).show();
+            $('#add-button' + idCategory).show();
+            $('#info-button' + idCategory).show();
+            $('#delete-button' + idCategory).show();
+            $('#categoryLabel' + idCategory).show();
+            $('#categoryLabel' + idCategory).html($('#categoryInput' + idCategory).val());
+            hideAllMsg();
+        } else {
+            $('#editCategory' + idCategory).hide();
+            $('#edit-button' + idCategory).show();
+            $('#add-button' + idCategory).show();
+            $('#info-button' + idCategory).show();
+            $('#delete-button' + idCategory).show();
+            $('#categoryLabel' + idCategory).show();
+        }
+        if (idCategory == 'new') {
+            $.ajax({
+                type: "GET",
+                url: categoryListEditContentLink
+            }).done(function(response) {
+                $('#sortable_category_level_0').html(response);
+                $('#addCategory').hide();
+            });
+        }
+    });
+
+}
+
+
+function cancelCategory(idCategory){
+    if (idCategory != 'new') {
+        $('#editCategory' + idCategory).hide();
+        $('#addSubCategory' + idCategory).hide();
+        $('#edit-button' + idCategory).show();
+        $('#add-button' + idCategory).show();
+        $('#info-button' + idCategory).show();
+        $('#delete-button' + idCategory).show();
+        $('#categoryLabel' + idCategory).show();
+    } else {
+        $('#addCategory').hide();
+    }
+}
+
+function deleteCategory(idCategory){
+    categoryLabel = $('#categoryLabel' + idCategory).html();
+    categoryLabel =  categoryLabel.replace("• ","");
+    if (confirm('Supprimer ' + categoryLabel + ' ?')) {
+        categoryRemove = categoryRemoveLink.replace("idCategory", idCategory);
+        $.ajax({
+            type: "GET",
+            url: categoryRemove
+        }).done(function(response) {
+            if (response == 'success') {
+                $('#' + idCategory).hide();
+            } else {
+                alert("quelque chose s'est mal passé!");
+            }
+            $.ajax({
+                type: "GET",
+                url: categoryListEditContentLink
+            }).done(function(response) {
+                $('#sortable_category_level_0').html(response);
+            });
+        });
+    }
+}
+
+function addCGVInfoWindow(categoryId){
+     $(function() {
+            $( "#add-cgv-info" ).removeAttr("title");
+            $( "#add-cgv-info" ).attr( "title", "Informations complémentaires pour la catégorie " + $("#categoryLabel" + categoryId).html());
+            $( "#add-cgv-info" ).dialog({
+                height: 310,
+                width: 620,
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    "Enregistrer": function() {
+                            title = $('#info-item').val();
+                            cgvId = '*';
+                            link = '*';
+                            title = $.trim(title);
+                            if (title == '') {
+                                showError('Veuillez saisir le titre du informations');
+
+                                return false;
+                            }
+                            $( this ).dialog( "close" );
+                            $.ajax({
+                                type: "POST",
+                                data: {
+                                    itemId: 'new',
+                                    categoryId: categoryId,
+                                    title: title,
+                                    cgvId: cgvId,
+                                    link: link
+                                },
+                                url: categoryInfoLink
+                            }).done(function(response) {
+                                if (response == 'success') {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: categoryListEditContentLink
+                                    }).done(function(response) {
+                                        $('#sortable_category_level_0').html(response);
+                                        hideAllMsg();
+                                    });
+                                } else {
+                                    alert("quelque chose s'est mal passé!");
+                                }
+                            });
+                    },
+                    "Fermer": function() {
+                            $( this ).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    $( this ).dialog( "destroy" );
+                }
+            });
+        });
+    $( "#add-cgv-info" ).dialog( "open" );
+    $("#info-item").val("");
+}
+
+
+function addCGVLinkWindow(categoryId){
+    $(function() {
+        var titleCGV = [];
+        var cgvId = '';
+        var arr = [];
+        $.ajax({
+            type: "GET",
+            url: cgvJsonLink
+        }).done(function(response) {
+        titleCGV = jQuery.parseJSON( response );
+        $("#add-cgv-external-link #link-label-input" ).autocomplete({
+            source: $.map( titleCGV, function( item ) {
+                arr[item.id] = item.title;
+
+                return {
+                    label: item.title,
+                    value: item.title,
+                    id: item.id
+                }
+            }),
+
+            select: function( event, ui ) {
+                cgvId = ui.item.id;
+                $('#link-label-url').hide();
+                $('#label-url').hide();
+            }
+
+        });
+
+
+
+        $("#add-cgv-external-link #link-label-input" ).keyup(function(event) {
+            index = arr.indexOf($(this).val(),0);
+            if (index != -1) {
+                cgvId = index;
+                $('#link-label-url').hide();
+                $('#label-url').hide();
+            } else {
+                cgvId = '';
+                $('#link-label-url').show();
+                $('#label-url').show();
+            }
+        });
+    });
+    $( "#add-cgv-external-link" ).dialog({
+        height: 210,
+        width: 550,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+            "Enregistrer": function() {
+                    title = $('#link-label-input').val();
+                    link = $('#link-label-url').val();
+                    if (cgvId == '') {
+                        cgvId = '*';
+                    }
+                    if (link == '') {
+                        link = "*";
+                    } else {
+                        if (!(/^([a-z]([a-z]|\d|\+|-|\.)*):(\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?((\[(|(v[\da-f]{1,}\.(([a-z]|\d|-|\.|_|~)|[!\$&'\(\)\*\+,;=]|:)+))\])|((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=])*)(:\d*)?)(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*|(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)){0})(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(link))) {
+                            showError("L'url introduit n'est pas valide");
+
+                            return false;
+                        }
+                    }
+                    if (title == '') {
+                        showError('Titre ne peut être vide');
+
+                        return false;
+                    }
+                    $( this ).dialog( "close" );
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            itemId: 'new',
+                            categoryId: categoryId,
+                            title: title,
+                            cgvId: cgvId,
+                            link: link
+                        },
+                        url: categoryInfoLink
+                    }).done(function(response) {
+                        $('.form-error').hide();
+                        if (response == 'success') {
+                            $.ajax({
+                                type: "GET",
+                                url: categoryListEditContentLink
+                            }).done(function(response) {
+                                $('#sortable_category_level_0').html(response);
+                            });
+                        } else {
+                            alert("quelque chose s'est mal passé!");
+                        }
+                    });
+            },
+            "Fermer": function() {
+                    $( this ).dialog( "close" );
+            }
+        }
+    });
+    });
+    $( "#add-cgv-external-link" ).dialog( "open" );
+    $('#link-label-input').show();
+    $('#link-label-url').show();
+    $('#label-url').show();
+    $('#link-label-input').val('');
+    $('#link-label-url').val('');
+}
+
+function addCGV(){
+     $(function() {
+             $( "#add-cgv" ).dialog({
+                height: 170,
+                width: 320,
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    "Valider": function() {
+                            name = $('#cgv-title-input').val();
+                            name = $.trim(name);
+                            name = name.replace(/\\/g, '');
+                            name = name.replace(/\//g, '');
+                            name = encodeURIComponent(name);
+                            cgvUpdate = cgvUpdateLink.replace("cgvId", "0");
+                            cgvUpdate = cgvUpdate.replace("name", name);
+                            cgvUpdate = cgvUpdate.replace("userId", 1);
+                            if (name == '') {
+                                showError('Veuillez saisir le titre du CGV');
+
+                                return false;
+                            }
+                            console.log(cgvUpdate);
+                            $.ajax({
+                                type: "GET",
+                                url: cgvUpdate
+                            }).done(function(response) {
+                                if (response == 'success') {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: cgvContentLink
+                                    }).done(function(responseContent) {
+                                        $('#cgv-content').html(responseContent);
+                                        showSucces("La CGV a été sauvegardée");
+                                    })
+                                }
+                            });
+                            $( this ).dialog( "close" );
+                            hideAllMsg();
+                    },
+                    "Fermer": function() {
+                            $( this ).dialog( "close" );
+                    }
+                }
+            });
+        });
+    $( "#add-cgv" ).dialog( "open" );
+    $("#cgv-title-input").val("");
+}
+
+function addCgvElement(){
+    $("#input-element-id").val("new");
+    $('#list-cgv-elemet').hide();
+    $( "#add-cgv-element" ).show();
+    $("#alias-element-id").val("");
+    $("#cgv-element-input").val("");
+}
+
+
+function showEditCGVForm(idCgv) {
+    $("#cgv-title-id-" + idCgv).hide();
+    $("#edit-cgv-title-id-" + idCgv).show();
+    $("#edit-cgv-title-id-"+idCgv+" #input-cgv-title-id-"+idCgv).val($(".cgv-title-td span#cgv-title-id-"+idCgv).html());
+
+}
+
+function closeEditCGVForm(idCgv) {
+    $("#cgv-title-id-" + idCgv).show();
+    $("#edit-cgv-title-id-" + idCgv).hide();
+}
+
+function saveCGV(cgvId){
+    name = $('#input-cgv-title-id-'+cgvId).val();
+    if (name == '') {
+        showError("Veuillez saisir le titre du CGV");
+    }
+    cgvUpdate = cgvUpdateLink.replace("cgvId", cgvId);
+    cgvUpdate = cgvUpdate.replace("name", name);
+    cgvUpdate = cgvUpdate.replace("userId", 1);
+    $.ajax({
+        type: "GET",
+        url: cgvUpdate
+    }).done(function(response) {
+        if (response == 'success') {
+            closeEditCGVForm(cgvId);
+            $("#cgv-title-id-" + cgvId).html(name);
+            showSucces("La CGV a été sauvegardée");
+        } else {
+            showError("L'ajout|l’édit du CGV a échoué");
+        }
+    });
+
+}
+
+function removeCGV(cgvId){
+    cgvName = $('#cgv-title-id-'+cgvId).html();
+    message = "Supprimer le CGV : "+ cgvName +" ?";
+    $('body').append("<div id='dialog-my-confirmation' class='dialog-my-confirmation' title='Confirmer'><p>" + message + "</p></div>");
+
+    $(function() {
+        $( "#dialog-my-confirmation" ).dialog({
+        resizable: false,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Oui": function() {
+                cgvRemove = cgvRemoveLink.replace("cgvId", cgvId);
+                $.ajax({
+                        type: "GET",
+                        url: cgvRemove
+                }).done(function(response) {
+                        if (response == 'success') {
+                                closeEditCGVForm(cgvId);
+                                cgvTabClick("La CGV a été supprimée");
+                        } else {
+                                showError("La suppression du CGV a échoué")
+                        }
+                });
+                $( this ).dialog( "close" );
+            },
+            "Non": function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+            $('.dialog-my-confirmation').remove();
+        }
+        });
+    });
+}
+
+
+function selectAddVersion(cgvId, cgvTitle){;
+    $("#cgv-tabs").tabs("option", "active", 1);
+    versionTabLoad('new', cgvId, [], '', cgvTitle);
+
+}
+
+function showHideVersion(cgvId){
+    if ($('#version-' + cgvId).css('display') == 'none') {
+        $('#version-' + cgvId).show();
+        $('#show-hide-version-' + cgvId).removeClass('show-version-btn');
+        $('#show-hide-version-' + cgvId).addClass('hide-version-btn');
+    } else {
+        $('#version-' + cgvId).hide();
+        $('#show-hide-version-' + cgvId).addClass('show-version-btn');
+        $('#show-hide-version-' + cgvId).removeClass('hide-version-btn');
+    }
+}
+
+var timeout = null;
+function doDelayedSearch() {
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+  timeout = setTimeout(function() {
+     doSearch();
+  }, 650);
+}
+
+function doSearch(){
+    val = $('#version-recherche-input').val();
+    if (val != "") {
+        elementSearch= elementListLink.replace("searchVal", val);
+    } else {
+        elementSearch= elementListLink.replace("searchVal", "*");
+    }
+    $.ajax({
+        type: "GET",
+        url: elementSearch
+    }).done(function(response) {
+        $('#versions-sortable1').html(response);
+        removeUsedElement();
+        changeLiElement();
+    });
+}
+
+function saveVersion(goToTab) {
+    var elementIds = [];
+    $("#versions-sortable2 li").each(function() {elementIds.push($(this).attr('id'))});
+    var elementIdsCSV = elementIds.join(',');
+    date = $('#version-date-input').val();
+    idCgv = $('#cgv-select-box').val();
+    versionId = $('#versionId').val();
+    if (date == "") {
+        showError('Veuillez choisir la date de validité');
+
+        return false;
+    }
+    if (elementIds.length == 0) {
+        showError('Veuillez choisir au moins un élément');
+
+        return false;
+    }
+    if (idCgv == "") {
+        showError("Veuillez choisir le CGV");
+
+        return false;
+    }
+    versionCreate= versionCreateLink.replace("cgvId", idCgv);
+    versionCreate= versionCreate.replace("versionId", versionId);
+    versionCreate= versionCreate.replace("validityDate", date);
+    versionCreate= versionCreate.replace("elementIds", elementIdsCSV);
+    versionCreate= versionCreate.replace("userId", 1);
+    $.ajax({
+        type: "GET",
+        url: versionCreate
+    }).done(function(response) {
+        responseArr = response.split('-');
+        if (responseArr[0] == 'cgv_not_exist') {
+            showError("Le CGV indiqué n'existe pas");
+
+            return false;
+        }
+        if (responseArr[0] == 'error') {
+            showError("Erreur dans la mise a jour des états des versions");
+
+            return false;
+        }
+        if (responseArr[0] != "error") {
+            $('.form-error').hide();
+            if (responseArr[1] == 'is_new') {
+               $('.form-error').hide();
+                   $("#cgv-tabs").tabs("option", "active", goToTab);
+                   reloadTab(goToTab, "La version a été créée");
+                   versionWasModify = false;
+            };
+            if (responseArr[1] == 'is_not_new') {
+               $('.form-error').hide();
+                   $("#cgv-tabs").tabs("option", "active", goToTab);
+                   reloadTab(goToTab, "La version a été mise à jour");
+                   versionWasModify = false;
+            };
+
+            if (!isNaN(responseArr[0])) {
+                $('#versionId').val(responseArr[0]);
+            }
+        }
+    });
+}
+
+function cancelVersion(goToTab) {
+    cgvIdInput = $('#cgv-select-box').val();
+    dateInput = $('#version-date-input').val();
+    elementsHTML = $('#versions-sortable2').html();
+    if (versionWasModify == true) {
+        message = "Voulez-vous sauvegarder vos modifications ?";
+        $('body').append("<div id='dialog-my-confirmation' class='dialog-my-confirmation' title='Confirmer'><p>" + message + "</p></div>");
+
+        $(function() {
+            $( "#dialog-my-confirmation" ).dialog({
+            resizable: false,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Oui": function() {
+                    saveVersion(goToTab);
+                    $( this ).dialog( "close" );
+                },
+                "Non": function() {
+                    doSearch();
+                    $("#versions-sortable2").empty();
+                    $("#version-date-input").val("");
+                    $('#cgv-select-box').val("");
+                    $('#versionId').val("new");
+                    $('#cgv-hidden-input-div').hide();
+                    $('#cgv-select-div').show();
+                    $('#version-date-input').attr("disabled", false);
+                    $('#cgv-select-box').val('');
+                    $('#version-date-input').val('');
+                    $('#versions-sortable2').html('');
+                    $("#cgv-tabs").tabs("option", "active", goToTab);
+                    hideAllMsg();
+                    hideCreateVersionForm();
+                    $( this ).dialog( "close" );
+                    versionWasModify = false;
+                }
+            },
+            close: function() {
+                $('.dialog-my-confirmation').remove();
+            }
+            });
+        });
+    } else {
+        doSearch();
+        $("#versions-sortable2").empty();
+        $("#version-date-input").val("");
+        $('#versionId').val("new");
+        $('#cgv-hidden-input-div').hide();
+        $('#cgv-select-div').show();
+        $('#version-date-input').attr("disabled", false);
+        hideAllMsg();
+        hideCreateVersionForm();
+    }
+}
+
+
+function changeLiElement() {
+    height = $('#versions-sortable1').height();
+    if (height < $('#versions-sortable2').height()) {
+        height = $('#versions-sortable2').height();
+        $('.version-left-column').css("border-right", "0px solid black");
+        $('.version-right-column').css("border-left", "1px solid black");
+    } else {
+        $('.version-left-column').css("border-right", "1px solid black");
+        $('.version-right-column').css("border-left", "0px solid black");
+    }
+    $('#div-bottom').css("margin-top", height + 200 + "px");
+}
+
+function generatePdfButton() {
+    var elementIds = [];
+    $("#versions-sortable2 li").each(function() {elementIds.push($(this).attr('id'))});
+    var elementIdsCSV = elementIds.join(',');
+    date = $('#version-date-input').val();
+    idCgv = $('#cgv-select-box').val();
+    versionId = $('#versionId').val();
+    if (date == "") {
+        showError('Veuillez choisir la date de validité');
+
+        return false;
+    }
+    if (elementIds.length == 0) {
+        showError('Choisir au moins un élément');
+
+        return false;
+    }
+    if (idCgv == "") {
+        showError("Pas de CGV sélectionnée");
+
+        return false;
+    }
+
+    message = "Veuillez confirmer la génération du PDF ?";
+    $('body').append("<div id='dialog-my-confirmation' class='dialog-my-confirmation' title='Confirmer'><p>" + message + "</p></div>");
+
+    $(function() {
+        $( "#dialog-my-confirmation" ).dialog({
+        resizable: false,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Oui": function() {
+                versionCreate= versionCreateLink.replace("cgvId", idCgv);
+                versionCreate= versionCreate.replace("versionId", versionId);
+                versionCreate= versionCreate.replace("validityDate", date);
+                versionCreate= versionCreate.replace("elementIds", elementIdsCSV);
+                versionCreate= versionCreate.replace("userId", 1);
+                $.ajax({
+                    type: "GET",
+                    url: versionCreate
+                }).done(function(response) {
+                    responseArr = response.split('-');
+                    if (responseArr[0] == 'cgv_not_exist') {
+                        showError("Le CGV indiqué n'existe pas");
+
+                        return false;
+                    }
+                    if (responseArr[0] == 'error') {
+                        showError("Erreur dans la mise a jour des états des versions");
+
+                        return false;
+                    }
+                    if (responseArr[0] != "error") {
+                        if (!isNaN(responseArr[0])) {
+                            $('#versionId').val(responseArr[0]);
+                        }
+                        $('.form-error').hide();
+                        if ((responseArr[1] == 'is_new') || (responseArr[1] == 'is_not_new')) {
+                            generatePdf();
+                        }
+                    }
+                });
+                $( this ).dialog( "close" );
+            },
+            "Non": function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+            $('.dialog-my-confirmation').remove();
+        }
+        });
+    });
+}
+
+function generatePdf() {
+    var versionId = $('#versionId').val();
+    var versionDate = $('#version-date-input').val();
+    var cgvName = $('#cgv-select-box option:selected').text();
+    var cgvId = $('#cgv-select-box').val();
+    if (versionId != '' && versionId != 'new') {
+        var divId = cgvId + versionDate + versionId;// parseInt(Math.random()*10000);
+        showAjaxLoading(cgvName, versionDate, divId);
+        hideAllMsg();
+        generatePdfUrl = generatePdfLink.replace("versionId", versionId);
+        $.ajax({
+            type: "GET",
+            data: {
+                divId: divId,
+                cgvName: cgvName,
+                versionDate: versionDate
+            },
+            url: generatePdfUrl
+        }).done(function(response) {
+            var json = response;
+            objectResponse = JSON.parse(json);
+            hideAjaxLoading(objectResponse.cgvName, objectResponse.versionDate, objectResponse.divId, objectResponse.generatedStatus);
+            versionTabContentURL = versionTabContentLink.replace("versionId", "*");
+            $.ajax({
+                type: "GET",
+                url: versionTabContentURL
+            }).done(function(response) {
+                $('#version-tab').html('<p>' + response + '</p>').triggerHandler('versionLoaded');
+//                $('#versions-table_length select').val(versionNumberRows);
+//                $('#versions-table_length select').change();
+            });
+        });
+    } else {
+        showError('Avant la génération du PDF, veuillez créer une version');
+    }
+}
+
+function generatePdfManyVersions(jsonArr) {
+    var length = jsonArr.length;
+    var i = 0;
+    setInterval(function() {
+        if (i < length) {
+            cgvId = jsonArr[i].cgvId;
+            cgvName = jsonArr[i].cgvName;
+            versionId = jsonArr[i].versionId;
+            versionDate = jsonArr[i].versionDate;
+
+            divId = cgvId + versionDate;
+            showAjaxLoading(cgvName, versionDate, divId);
+            hideAllMsg();
+            generatePdfUrl = generatePdfLink.replace("versionId", versionId);
+            $.ajax({
+                type: "GET",
+                data:{
+                    divId: divId,
+                    cgvName: cgvName,
+                    versionDate: versionDate
+                },
+                url: generatePdfUrl
+            }).done(function(response) {
+                var json = response;
+                var objectResponse = JSON.parse(json);
+                hideAjaxLoading(objectResponse.cgvName, objectResponse.versionDate, objectResponse.divId, objectResponse.generatedStatus);
+                versionTabContentURL = versionTabContentLink.replace("versionId", "*");
+                $.ajax({
+                    type: "GET",
+                    url: versionTabContentURL
+                }).done(function(response) {
+                    $('#version-tab').html('<p>' + response + '</p>').triggerHandler('versionLoaded');
+                });
+            });
+            i++;
+        }
+        if (i >= length) {
+            return;
+        }
+    }, 500);
+}
+
+
+$("#version-tab-a").click( function() {
+    versionTabClick();
+    checkElementModify(1);
+});
+
+function reloadTab(nrTab, message) {
+    switch (nrTab)
+    {
+        case 0:
+            cgvTabClick(message);
+            break;
+        case 1:
+            versionTabClick(message);
+            break;
+        case 2:
+            textTabClick(message);
+            break;
+    }
+}
+
+function versionTabClick(message) {
+    $('.form-error').hide();
+    versionTabContentURL = versionTabContentLink.replace("versionId", "*");
+    $.ajax({
+        type: "GET",
+        url: versionTabContentURL
+    }).done(function(response) {
+        $('#version-tab').html('<p>' + response + '</p>').triggerHandler('versionLoaded');
+        if (message != undefined) {
+           showSucces(message);
+        }
+    });
+}
+
+function searchVersionRow(versionId) {
+    versionTabContentURL = versionTabContentLink.replace("versionId", versionId);
+    $('.form-error').hide();
+    $.ajax({
+        type: "GET",
+        url: versionTabContentURL
+    }).done(function(response) {
+        $('#version-tab').html('<p>' + response + '</p>').triggerHandler('versionLoaded');
+        $("#cgv-tabs").tabs("option", "active", 1);
+    });
+}
+
+$("#cgv-tab-a").click( function() {
+    cgvTabClick();
+    checkVersionModify(0);
+    checkElementModify(0);
+});
+
+function cgvTabClick(message) {
+    $('.form-error').hide();
+    $.ajax({
+        type: "GET",
+        url: cgvTabContentLink
+    }).done(function(response) {
+        $('#cgv-tab').html('<p>' + response + '</p>').triggerHandler('cgvLoaded');
+        if (message != undefined) {
+           showSucces(message);
+        }
+    });
+}
+
+$("#text-tab-a").click( function() {
+    textTabClick();
+    checkVersionModify(2);
+});
+
+function textTabClick(message) {
+    $('.form-error').hide();
+    $.ajax({
+        type: "GET",
+        url: elementsTabContentLink
+    }).done(function(response) {
+        $('#text-tab').html('<p>' + response + '</p>').triggerHandler('textLoaded');
+        if (message != undefined) {
+           showSucces(message);
+        }
+    });
+}
+
+$("#category-edit-tab-a").click( function() {
+    categoryEditTabClick();
+});
+
+$("#category-show-tab-a").click( function() {
+    categoryShowTabClick();
+});
+
+
+function categoryEditTabClick() {
+    $('.form-error').hide();
+    $.ajax({
+        type: "GET",
+        url: categoryListEditContentLink
+    }).done(function(response) {
+        $('#sortable_category_level_0').html(response);
+        $('#addCategory').hide();
+    });
+    hideAllMsg();
+}
+
+function categoryShowTabClick() {
+    $('.form-error').hide();
+    $.ajax({
+        type: "GET",
+        url: categoryListShowContentLink
+    }).done(function(response) {
+        $('#sortable_category_show').html(response);
+        $('#addCategory').hide();
+    });
+    hideAllMsg();
+}
+
+function saveElement() {
+    elementId = $("#input-element-id").val();
+    content = tinyMCE.get('cgv-element-input').getContent();
+    name = $('#alias-element-id').val();
+    elementCategory = $('input#element-category-select').val();
+    hideAllMsg();
+    if (name == '') {
+        showError('Veuillez saisir le titre');
+
+        return false;
+    }
+    if (elementCategory == '') {
+        showError('Veuillez saisir le catégorie');
+
+        return false;
+    }
+    if (content == '') {
+        showError('Veuillez saisir le contenu');
+
+        return false;
+    }
+    $('#list-cgv-elemet').show();
+    $( "#add-cgv-element" ).hide();
+    $("#alias-element-id").val("");
+    $("#cgv-element-input").val("");
+    $.ajax({
+        type: "POST",
+        data: {
+            elementId: elementId,
+            name: name,
+            elementCategory: elementCategory,
+            content: content,
+            userId: 1
+        },
+        url: elementUpdateLink
+    }).done(function(response) {
+        if (response == 'success') {
+            $('#list-cgv-elemet').show();
+            $( "#add-cgv-element" ).hide();
+            $("#alias-element-id").val("");
+            $("#cgv-element-input").val("");
+            textTabClick("L'élément a été sauvegardé");
+            if (elementId != 'new') {
+                generatePdfForNewVersions(elementId);
+            }
+        } else {
+            showError("Erreur sur l'élément de sauvegarde");
+        }
+    });
+}
+
+function cancelElement() {
+    hideAllMsg();
+    textWasModify = false;
+    $('#list-cgv-elemet').show();
+    $( "#add-cgv-element" ).hide();
+    $("#alias-element-id").val("");
+    $("#cgv-element-input").val("");
+    $('input#element-category-select').val("");
+    textContent = '';
+}
+
+function showEditFormElement(elementId) {
+    content = '';
+    elementContent = elementContentLink.replace("elementId", elementId);
+    $.ajax({
+        type: "GET",
+        url: elementContent
+    }).done(function(response) {
+        content = response
+        alias = $('#alias-' + elementId).html();
+        alias = $.trim(alias);
+        elementCategory = $('#element-category-' + elementId).html();
+        elementCategory = $.trim(elementCategory);
+        $("#input-element-id").val(elementId);
+        $('#list-cgv-elemet').hide();
+        $( "#add-cgv-element" ).show();
+        $("#alias-element-id").val(alias);
+        $('input#element-category-select').val(elementCategory);
+        $("#cgv-element-input").val(content);
+        tinyMCE.get('cgv-element-input').setContent(content);
+        textContent = content;
+    });
+}
+
+function deleteElement(elementId) {
+    elementName = $('#alias-' + elementId).html();
+    versionsElement = $('#versions-for-element-' + elementId).html();
+    confirmMsg_p1 = "Cet élément est également utilisé par les versions suivantes : <i>"+versionsElement+"</i>";
+    confirmMsg_p2 = "Supprimer l'élément  : <b>" + elementName + "</b> ?";
+    if (versionsElement != '') {
+        confirmMsg = confirmMsg_p1 + "<br/>" + confirmMsg_p2;
+    } else {
+        confirmMsg = confirmMsg_p2;
+    }
+    confirmMsg = '<span style="font-size:14px">' + confirmMsg + '</span>'
+    $('body').append("<div id='dialog-my-confirm' class='dialog-my-confirm' title='Confirmation de suppression'><p>" + confirmMsg + "</p></div>");
+
+    $(function() {
+        $( "#dialog-my-confirm" ).dialog({
+        resizable: false,
+        width: 500,
+        modal: true,
+        buttons: {
+            "OK": function() {
+                $( this ).dialog( "close" );
+                deleteElementURL = deleteElementLink.replace("elementId", elementId);
+                $.ajax({
+                    type: "GET",
+                    url: deleteElementURL
+                }).done(function(response) {
+                    if (response == 'success') {
+                        generatePdfForNewVersions(elementId);
+                        textTabClick("L'élément a été supprimé");
+                    } else {
+                        alert("Erreur sur l'élément delete");
+                    }
+                });
+            },
+            "Annuler": function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+            $('.dialog-my-confirm').remove();
+        }
+        });
+    });
+}
+
+
+
+function showEditFormVersion(versionId, cgvId, versionElements, date, cgvTitle) {
+    $("#cgv-tabs").tabs("option", "active", 1);
+    versionTabLoad(versionId, cgvId, versionElements, date, cgvTitle);
+}
+
+function versionTabLoad(versionId, cgvId, versionElements, date, cgvTitle) {
+    $('.form-error').hide();
+    versionTabContentURL = versionTabContentLink.replace("versionId", "*");
+    $.ajax({
+        type: "GET",
+        url: versionTabContentURL
+    }).done(function(response) {
+        $('#version-tab').html('<p>' + response + '</p>').triggerHandler('versionLoaded');
+        forEach(versionElements, function(key, value){
+            $('#versions-sortable2').append('<li class="ui-state-default element-style" id="'+ value[0] +'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+ value[1].substr(0,70) +'</li>');
+        });
+        $('#cgv-select-box').val(cgvId);
+        $('#versionId').val(versionId);
+        $('#version-date-input').val(date);
+        $('#cgv-title-label').html(cgvTitle);
+        $('#cgv-hidden-input-div').show();
+        $('#cgv-select-div').hide();
+        if (versionId != 'new') {
+           $('#version-date-input').attr("disabled", true);
+        }
+        removeUsedElement();
+        changeLiElement();
+        showCreateVersionForm();
+    });
+}
+
+
+function forEach(data, callback){
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+        callback(key, data[key]);
+    }
+  }
+}
+
+function deleteVersion(versionId, cgvId, versionName) {
+    message = "Supprimer la version : " + versionName + " ?";
+        $('body').append("<div id='dialog-my-confirmation' class='dialog-my-confirmation' title='Confirmer'><p>" + message + "</p></div>");
+
+        $(function() {
+            $( "#dialog-my-confirmation" ).dialog({
+            resizable: false,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Oui": function() {
+                    deleteVersionURL = deleteVersionLink.replace("versionId", versionId);
+                    $.ajax({
+                        type: "GET",
+                        url: deleteVersionURL
+                    }).done(function(response) {
+                        if (response == 'success') {
+                        $("#version-container-" + versionId).hide();
+                        versionCount = $("#version-count-" + cgvId).html();
+                        versionCount = parseInt(versionCount);
+                        versionCount = versionCount - 1;
+                        $("#version-count-" + cgvId).html(versionCount);
+                        versionTabClick('La version a été supprimée');
+                        } else {
+                        showError("La suppression du version " + versionName + " a échoué");
+                        }
+                    });
+                    $( this ).dialog( "close" );
+                },
+                "Non": function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+                $('.dialog-my-confirmation').remove();
+            }
+            });
+        });
+}
+
+
+function showSucces(message) {
+    hideAllMsg();
+    $('.form-success').html(message);
+    $('.form-success').show();
+}
+
+function showError(message) {
+    hideAllMsg();
+    $('.form-error').html(message);
+    $('.form-error').show();
+}
+
+function hideAllMsg() {
+    $('.form-error').hide();
+    $('.form-success').hide();
+}
+
+function showAjaxLoading(cgvName, versionDate, divId) {
+
+    $('.pdf-create-status #' + divId).remove();
+    $('.pdf-create-status').append('<div class="form-ajax-loading" id=' + divId + '>Le fichier PDF de la CGV “' + cgvName + ' ” version ' + versionDate + ' est en cours de génération.</div>');
+
+
+}
+
+function hideAjaxLoading(cgvName, versionDate, divId, generatedStatus) {
+    $('.pdf-create-status #' + divId).remove();
+    if (generatedStatus == 'success') {
+        html = '<div class="form-success-pdf" id=' + divId + '>' + 'Le fichier PDF de la CGV “' + cgvName + '” version ' + versionDate + ' a été généré.' + '<span class="close-div-btn" onclick="removeDiv(\'' + divId + '\')">&nbsp;</span></div>';
+    } else if (generatedStatus == 'error_generate_title') {
+        html = '<div class="form-error-pdf" id=' + divId + '>Le titre du PDF n\'a pas été généré<span class="close-div-btn" onclick="removeDiv(\'' + divId + '\')">&nbsp;</span></div>';
+    } else {
+        html = '<div class="form-error-pdf" id=' + divId + '>' + 'La génération du PDF pour CGV ' + cgvName + ' et version date ' + versionDate + ' a échouée' + '<span class="close-div-btn" onclick="removeDiv(\'' + divId + '\')">&nbsp;</span></div>';
+    }
+    $('.pdf-create-status').append(html);
+
+}
+
+function removeUsedElement() {
+    var selectedIdElements = [];
+    $("#versions-sortable2 li").each(function() {
+        selectedIdElements.push($(this).attr("id"));
+        $("#versions-sortable1 #"+$(this).attr("id")).hide();
+    });
+}
+
+function editCategoryItem(categoryId, categoryItemId, categoryItemTitle, categoryItemLink){
+    $(function() {
+        var titleCGV = [];
+        var cgvId = '';
+        var arr = [];
+        $.ajax({
+            type: "GET",
+            url: cgvJsonLink
+        }).done(function(response) {
+        titleCGV = jQuery.parseJSON( response );
+        $("#add-cgv-external-link #link-label-input" ).autocomplete({
+            source: $.map( titleCGV, function( item ) {
+                arr[item.id] = item.title;
+
+                return {
+                    label: item.title,
+                    value: item.title,
+                    id: item.id
+                }
+            }),
+
+            select: function( event, ui ) {
+                cgvId = ui.item.id;
+                $('#link-label-url').hide();
+                $('#label-url').hide();
+            }
+        });
+
+        index = arr.indexOf($("#add-cgv-external-link #link-label-input" ).val(),0);
+        if (index != -1) {
+            cgvId = index;
+        }
+
+    });
+
+    $("#add-cgv-external-link #link-label-input" ).keyup(function(event) {
+        index = arr.indexOf($(this).val(),0);
+        if (index != -1) {
+            cgvId = index;
+            $('#link-label-url').hide();
+            $('#label-url').hide();
+        } else {
+            cgvId = '';
+            $('#link-label-url').show();
+            $('#label-url').show();
+        }
+    });
+
+    $( "#add-cgv-external-link" ).dialog({
+        height: 210,
+        width: 550,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+            "Enregistrer": function() {
+                    title = $('#link-label-input').val();
+                    link = $('#link-label-url').val();
+                    if (cgvId == '') {
+                        cgvId = '*';
+                    }
+                    if (link == '') {
+                        link = "*";
+                    } else {
+                        if (!(/^([a-z]([a-z]|\d|\+|-|\.)*):(\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?((\[(|(v[\da-f]{1,}\.(([a-z]|\d|-|\.|_|~)|[!\$&'\(\)\*\+,;=]|:)+))\])|((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=])*)(:\d*)?)(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*|(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)){0})(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(link))) {
+                            showError("L'url introduit n'est pas valide");
+
+                            return false;
+                        }
+                    }
+                    if (title == '') {
+                        showError('Titre ne peut être vide');
+
+                        return false;
+                    }
+                    $( this ).dialog( "close" );
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            itemId: categoryItemId,
+                            categoryId: categoryId,
+                            title: title,
+                            cgvId: cgvId,
+                            link: link
+                        },
+                        url: categoryInfoLink
+                    }).done(function(response) {
+                        $('.form-error').hide();
+                        if (response == 'success') {
+                            $.ajax({
+                                type: "GET",
+                                url: categoryListEditContentLink
+                            }).done(function(response) {
+                                $('#sortable_category_level_0').html(response);
+                            });
+                        } else {
+                            alert("quelque chose s'est mal passé!");
+                        }
+                    });
+            },
+            "Fermer": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+    });
+    $( "#add-cgv-external-link" ).dialog( "open" );
+    $('#link-label-input').show();
+    $('#link-label-url').show();
+    $('#label-url').show();
+    $('#link-label-input').val(categoryItemTitle);
+    $('#link-label-url').val(categoryItemLink);
+    if (categoryItemLink == 'isCGVLink') {
+        $('#link-label-url').hide();
+        $('#link-label-url').val('');
+        $('#label-url').hide();
+    }
+}
+
+function removeCategoryItemInfo(itemId, itemTitle) {
+    itemTitle = $("#ItemInfo"+itemId).html();
+    itemTitle = itemTitle.substr(0, 40);
+    if (confirm('Supprimer ' + itemTitle + ' ?')) {
+        removeCategoryItemUrl = removeCategoryItemLink.replace("categoryItemId", itemId);
+        $.ajax({
+            type: "GET",
+            url: removeCategoryItemUrl
+        }).done(function(response) {
+            if (response == 'success') {
+                $.ajax({
+                    type: "GET",
+                    url: categoryListEditContentLink
+                }).done(function(response) {
+                    $('#sortable_category_level_0').html(response);
+                });
+            } else {
+                alert("quelque chose s'est mal passé!");
+            }
+        });
+    }
+}
+
+function removeCategoryItem(itemId, itemTitle) {
+    itemTitle = itemTitle.substr(0, 40);
+    if (confirm('Supprimer ' + itemTitle + ' ?')) {
+        removeCategoryItemUrl = removeCategoryItemLink.replace("categoryItemId", itemId);
+        $.ajax({
+            type: "GET",
+            url: removeCategoryItemUrl
+        }).done(function(response) {
+            if (response == 'success') {
+                $.ajax({
+                    type: "GET",
+                    url: categoryListEditContentLink
+                }).done(function(response) {
+                    $('#sortable_category_level_0').html(response);
+                });
+            } else {
+                alert("quelque chose s'est mal passé!");
+            }
+        });
+    }
+}
+
+function editCategoryItemInfo(categoryId, categoryItemId){
+
+     $(function() {
+            categoryItemTitle = $("#ItemInfo"+categoryItemId).html();
+             $( "#add-cgv-info" ).removeAttr("title");
+             $( "#add-cgv-info" ).attr( "title", "Informations complémentaires pour la catégorie " + $("#categoryLabel" + categoryId).html());
+             $( "#add-cgv-info" ).dialog({
+                height: 310,
+                width: 620,
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    "Enregistrer": function() {
+                            title = $('#info-item').val();
+                            cgvId = '*';
+                            link = '*';
+                            $( this ).dialog( "close" );
+                            $.ajax({
+                                type: "POST",
+                                data: {
+                                    itemId: categoryItemId,
+                                    categoryId: categoryId,
+                                    title: title,
+                                    cgvId: cgvId,
+                                    link: link
+                                },
+                                url: categoryInfoLink
+                            }).done(function(response) {
+                                if (response == 'success') {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: categoryListEditContentLink
+                                    }).done(function(response) {
+                                        $('#sortable_category_level_0').html(response);
+                                    });
+                                } else {
+                                    alert("quelque chose s'est mal passé!");
+                                }
+                            });
+                    },
+                    "Fermer": function() {
+                            $( this ).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    $( this ).dialog( "destroy" );
+                }
+            });
+        });
+    $( "#add-cgv-info" ).dialog( "open" );
+    $("#info-item").val(categoryItemTitle);
+}
+
+function removeDiv(divId) {
+    $('#' + divId).remove();
+}
+
+function showCreateVersionForm(){
+    $("#create-version").hide();
+    $('#create-version-form-div').show();
+    $('#versions-table-div').hide();
+    $('#div-bottom').css("margin-top", $('#versions-sortable1').height() + 200 + "px");
+}
+
+function hideCreateVersionForm(){
+    $("#create-version").show();
+    $('#create-version-form-div').hide();
+    $('#versions-table-div').show();
+}
+
+function checkVersionModify(goToTab) {
+    if (versionWasModify == true) {
+        cancelVersion(goToTab);
+        setTimeout(function(){
+            $("#cgv-tabs").tabs("option", "active", 1);
+        }, 100);
+
+    }
+}
+
+function checkElementModify(goToTab) {
+        editedContent = tinyMCE.get('cgv-element-input').getContent();
+        if (textContent == editedContent) {
+            contentWasModify = false;
+        } else {
+            contentWasModify = true;
+        }
+        if ((textWasModify == true) || (contentWasModify == true)) {
+            setTimeout(function(){
+                $("#cgv-tabs").tabs("option", "active", 2);
+            }, 100);
+            message = "Voulez-vous sauvegarder vos modifications ?";
+            $('body').append("<div id='dialog-my-confirmation' class='dialog-my-confirmation' title='Confirmer'><p>" + message + "</p></div>");
+
+            $(function() {
+                $( "#dialog-my-confirmation" ).dialog({
+                resizable: false,
+                width: 350,
+                modal: true,
+                buttons: {
+                    "Oui": function() {
+                        saveElement();
+                        $( this ).dialog( "close" );
+                        textWasModify = false;
+                    },
+                    "Non": function() {
+                        cancelElement();
+                        $("#cgv-tabs").tabs("option", "active", goToTab);
+                        $( this ).dialog( "close" );
+                        textWasModify = false;
+                    }
+                },
+                close: function() {
+                    $('.dialog-my-confirmation').remove();
+                }
+                });
+            });
+         }
+}
+
+function generatePdfForNewVersions(elementId) {
+    newVersionURL = newVersionLink.replace("elementId", elementId);
+    $.ajax({
+        type: "GET",
+        url: newVersionURL
+    }).done(function(response) {
+        var json = response;
+        jsonArr = JSON.parse(json);
+        var length = jsonArr.length;
+        var i = 0;
+        var interval = setInterval(function() {
+            if (i < length) {
+                cgvId = jsonArr[i].cgvId;
+                cgvName = jsonArr[i].cgvName;
+                versionId = jsonArr[i].versionId;
+                versionDate = jsonArr[i].versionDate;
+
+                divId = cgvId + versionDate + versionId;//parseInt(Math.random()*10000);
+                showAjaxLoading(cgvName, versionDate, divId);
+                hideAllMsg();
+                generatePdfUrl = generatePdfLink.replace("versionId", versionId);
+                $.ajax({
+                    type: "GET",
+                    data:{
+                        divId: divId,
+                        cgvName: cgvName,
+                        versionDate: versionDate
+                    },
+                    url: generatePdfUrl
+                }).done(function(response) {
+                    var json = response;
+                    var objectResponse = JSON.parse(json);
+                    hideAjaxLoading(objectResponse.cgvName, objectResponse.versionDate, objectResponse.divId, objectResponse.generatedStatus);
+                });
+                i++;
+            }
+            if (i >= length) {
+                clearInterval(interval);
+                return;
+            }
+        }, 1000);
+    });
+}

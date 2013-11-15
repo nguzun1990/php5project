@@ -1,0 +1,19 @@
+{%extends "::base.html.twig"%}
+{% block class_menu_item2 %}menu-item-hover{% endblock class_menu_item2 %}
+{% block page_content %}
+    <div class="title-list-content">
+      <span class="page-title">Liste des annonces</span>
+      <span class="button-span">
+          <span class="find-btn" onClick="showSearchForm()">&nbsp;</span>
+          <span class="remove-btn" onclick="deleteAdverts()">&nbsp;</span>
+          <a href="{{ path("advert_add") }}"><span class="add-btn">&nbsp;</span></a>
+      </span>
+      <span id="search-advert-input" class="hide">
+        <input type="text"/>
+        <span class="close-search-btn" onclick="closeSearchForm()">&nbsp;</span>
+      </span>
+    </div>
+    <div class="list-div" id="list-adverts-container">
+        {% include "AdvertGeneralBundle:Advert:listContent.html.twig" with { adverts: adverts} %}
+    </div>
+{% endblock %}

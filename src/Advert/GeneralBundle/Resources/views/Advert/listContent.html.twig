@@ -1,0 +1,44 @@
+{% if adverts|length > 0 %}
+    <table class="content-table">
+        {% for advert in adverts %}
+        <tr id="row-advert-{{advert.Id}}">
+            <td class="advert-check-td" id="advert-check-td{{advert.id}}"><input type="checkbox" id="checkbox{{advert.id}}" value="{{advert.id}}"/></td>
+            <td class="advert-image-td" >
+                {% if advert.photo %}
+                    <img src="{{ asset('photo') }}{{advert.photo.fileName}}"/>
+                {% else %}
+                    <img  src="{{ asset('public/css/images/photo.png') }}"/>
+                {% endif %}
+            </td>
+            <td class="advert-content-td">
+                <span class="advert-title">{{advert.title}}</span>
+                <span class="advert-operations">
+                    <span onclick="openWindowDetail('{{ path("advert_view", {'advertId': advert.id}) }}', '{{advert.title}}');" class="view-btn">&nbsp;</span>
+                    <a href="{{ path("advert_update", {'advertId': advert.id}) }}"><span class="edit-btn">&nbsp;</span></a>
+                    <span class="remove-btn" onclick="deleteAdvert({{advert.id}})">&nbsp;</span>
+                </span>
+                <br/>
+                <span class="advert-details">{{advert.createdAt|formated_date}} - {{advert.zipcode}} - {{advert.name}}</span>
+                <br/>
+                <span class="advert-content">{{advert.content|get_substring(400)}}</span>
+            </td>
+            <td class="advert-price-td"><span class="advert-price">{{advert.price}} &#8364;</span></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <span class="blank-adverts-list">{{'empty.list.adverts'|trans}}</span>
+{% endif %}
+
+<script type="text/javascript">
+    $(function() {
+        $('.advert-check-td input[type=checkbox]').click( function(){
+            advertId = $(this).val();
+            if ($(this).is(':checked')) {
+                $('#advert-check-td' + advertId).addClass('selected-row-list');
+            } else {
+                $('#advert-check-td' + advertId).removeClass('selected-row-list');
+            }
+        });
+    });
+</script>

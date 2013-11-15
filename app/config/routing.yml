@@ -1,0 +1,4 @@
+AdvertGeneralBundle:
+    resource: "@AdvertGeneralBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable
+END
+selectable_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable_methods.js
+END
+selectable_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable_events.js
+END
+selectable.html
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable.html
+END
+selectable_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable_common.js
+END
+selectable_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable_core.js
+END
+selectable_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/selectable_options.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/selectable/all.html
+END

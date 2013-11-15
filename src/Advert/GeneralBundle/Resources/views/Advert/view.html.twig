@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="{{ asset('public/css/main.css') }}" type="text/css" media="all" />
+<title>Pagoda {{advert.title}}</title>
+<div class="view-advert">
+    <div class="advert-view-title">{{advert.title}}</div>
+
+    <table class="advert-view-table">
+        <tr>
+            <td class="advert-view-image" width="50%">
+                {% if advert.photo %}
+                    <img src="{{ asset('photo') }}{{advert.photo.fileName}}" class="home-photo1"/>
+                {% else %}
+                    <img src="{{ asset('public/css/images/photo.png') }}" class="home-photo1"/>
+                {% endif %}
+            </td>
+            <td rowspan="2" class="advert-view-content">{{advert.content}}</td>
+        </tr>
+        <tr>
+           <td>
+                <span class="advert-view-label">Prix</span>
+                <span class="advert-view-value">{{advert.price}} &euro;</span>
+                <br/>
+                <span class="advert-view-label">Ajuté</span>
+                <span class="advert-view-value">{{advert.createdAt|date('Y-m-d H:i:s')}}</span>
+                <br/>
+                <span class="advert-view-label">Catégorie</span>
+                <span class="advert-view-value">{{advert.category}}</span>
+                <br/>
+                <span class="advert-view-label">Région</span>
+                <span class="advert-view-value">{{advert.region}}</span>
+                <br/>
+                <span class="advert-view-label">Code postal</span>
+                <span class="advert-view-value">{{advert.zipcode}}</span>
+                <br/>
+                <span class="advert-view-label">Nom</span>
+                <span class="advert-view-value">{{advert.name}}</span>
+                <br/>
+                <span class="advert-view-label">Téléphone</span>
+                <span class="advert-view-value">{{advert.phone}}</span>
+                <br/>
+                <span class="advert-view-label">Email</span>
+                <span class="advert-view-value">{{advert.email}}</span>
+                <br/>
+            </td>
+        </tr>
+    </table>
+</div>

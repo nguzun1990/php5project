@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable
+END
+droppable_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_test_helpers.js
+END
+droppable_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_methods.js
+END
+droppable_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/all.html
+END
+droppable.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable.html
+END
+droppable_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_common.js
+END
+droppable_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_core.js
+END
+droppable_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/droppable/droppable_options.js
+END

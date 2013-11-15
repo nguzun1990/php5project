@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>advert.title.not_blank</source>
+                <target>Veuillez saisir le titre</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>advert.content.not_blank</source>
+                <target>Veuillez saisir le contenu</target>
+            </trans-unit>
+            <trans-unit id="3">
+                    <source>advert.price.not_blank</source>
+                    <target>Veuillez saisir le prix</target>
+            </trans-unit>
+            <trans-unit id="4">
+                    <source>advert.region.not_blank</source>
+                    <target>Veuillez saisir le région</target>
+            </trans-unit>
+            <trans-unit id="5">
+                    <source>advert.zipcode.not_blank</source>
+                    <target>Veuillez saisir le code postal</target>
+            </trans-unit>
+            <trans-unit id="6">
+                    <source>advert.category.not_blank</source>
+                    <target>Veuillez saisir la catégorie</target>
+            </trans-unit>
+            <trans-unit id="7">
+                    <source>advert.type.not_blank</source>
+                    <target>Veuillez saisir le type</target>
+            </trans-unit>
+            <trans-unit id="8">
+                    <source>advert.name.not_blank</source>
+                    <target>Veuillez saisir le nom</target>
+            </trans-unit>
+            <trans-unit id="9">
+                    <source>advert.email.not_blank</source>
+                    <target>Veuillez saisir l'adresse e-mail</target>
+            </trans-unit>
+            <trans-unit id="10">
+                    <source>advert.email.not_valid</source>
+                    <target>L'adresse e-mail n'est pas valide</target>
+            </trans-unit>
+            <trans-unit id="11">
+                    <source>advert.phone.not_blank</source>
+                    <target>Veuillez saisir le nr.de  téléphone</target>
+            </trans-unit>
+            <trans-unit id="12">
+                    <source>advert.phone.not_valid</source>
+                    <target>Le nr.de téléphone n'est pas valide</target>
+            </trans-unit>
+            <trans-unit id="13">
+                    <source>advert.price.not_valid</source>
+                    <target>Le prix n'est pas valide</target>
+            </trans-unit>
+            <trans-unit id="14">
+                    <source>empty.list.adverts</source>
+                    <target>La liste d'annonces est vide</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

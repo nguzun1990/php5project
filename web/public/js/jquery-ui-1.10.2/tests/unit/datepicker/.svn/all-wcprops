@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker
+END
+datepicker_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_options.js
+END
+datepicker_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_test_helpers.js
+END
+datepicker_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_methods.js
+END
+datepicker_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/all.html
+END
+datepicker.html
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker.html
+END
+datepicker_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_common.js
+END
+datepicker_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/datepicker/datepicker_core.js
+END

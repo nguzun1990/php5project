@@ -1,0 +1,16 @@
+parameters:
+#    advert_general.example.class: Advert\GeneralBundle\Example
+
+services:
+  advert.advertservice:
+    class:  Advert\GeneralBundle\Service\AdvertService
+    arguments:
+        entityManager: "@doctrine.orm.entity_manager"
+
+  advert_general_extension.twig.extension:
+    class: Advert\GeneralBundle\Extensions\GeneralBundleExtension
+    tags:
+        - { name: twig.extension }
+
+  advert.logfileservice:
+    class:  Advert\GeneralBundle\Service\LogFileService

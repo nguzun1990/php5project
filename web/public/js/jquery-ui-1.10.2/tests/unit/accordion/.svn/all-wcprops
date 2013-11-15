@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion
+END
+accordion_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_methods.js
+END
+accordion_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_events.js
+END
+accordion.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion.html
+END
+accordion_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_common.js
+END
+accordion_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_core.js
+END
+accordion_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_options.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/all.html
+END
+accordion_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/accordion/accordion_test_helpers.js
+END

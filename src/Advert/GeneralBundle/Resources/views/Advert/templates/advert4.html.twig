@@ -1,0 +1,13 @@
+<div class="advert-summary-4">
+    {% if advert.photo %}
+        <span class="advert-summary-image"><img src="{{ asset('photo') }}{{advert.photo.fileName}}" /></span>
+    {% else %}
+        <span class="advert-summary-image"><img src="{{ asset('public/css/images/photo.png') }}" /></span>
+    {% endif %}
+    <br/>
+        <span onclick="openWindowDetail('{{ path("advert_view", {'advertId': advert.id}) }}', '{{advert.title}}');" class="advert-summary-title">{{advert.title}}</span>
+        <br>
+        <span class="advert-summary-details">{{advert.createdAt|formated_date}} - {{advert.zipcode}} - {{advert.name}}</span>
+        <br/>
+        <span class="advert-summary-content">{{advert.content|get_substring(400)}}</span>
+</div>

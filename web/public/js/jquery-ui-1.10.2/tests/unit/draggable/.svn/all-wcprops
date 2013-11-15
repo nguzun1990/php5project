@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable
+END
+draggable_test_helpers.js
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_test_helpers.js
+END
+draggable_methods.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_methods.js
+END
+draggable_events.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_events.js
+END
+all.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/all.html
+END
+draggable.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable.html
+END
+draggable_common.js
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_common.js
+END
+draggable_core.js
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_core.js
+END
+draggable_options.js
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/portail/!svn/ver/12508/admin-cgv.nordnet.com/trunk/web/public/js/jquery-ui-1.10.2/tests/unit/draggable/draggable_options.js
+END
